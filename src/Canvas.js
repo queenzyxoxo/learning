@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from "react";
-import { Engine, Scene, Vector3, HemisphericLight, MeshBuilder, FreeCamera, Color3 } from "@babylonjs/core";
+import { Engine, Scene, Vector3, HemisphericLight, MeshBuilder, FreeCamera, Color3, Observable } from "@babylonjs/core";
 import "@babylonjs/loaders";
 import "@babylonjs/core/Debug/debugLayer";
 import "@babylonjs/inspector";
@@ -93,6 +93,12 @@ class TestStage {
     
     this.#box = MeshBuilder.CreateBox("box", { size: 1 }, scene);
     this.#box.position.y = 1;
+
+    this.#box.onXChange = new Observable();
+    this.#box.onXChange.add((value) => {       
+      console.log(`onXChange value = ${value}`);
+    });
+    this.#box.onXChange.notifyObservers('test-value');
     // const ground = MeshBuilder.CreateGround("ground", { width: 25, height: 50 }, scene);
     MeshBuilder.CreateGround("ground", { width: 25, height: 50 }, scene);
     //ground.position.y = 0;
